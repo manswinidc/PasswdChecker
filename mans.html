@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Password Strength Checker</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #333; /* Dark background */
+    color: #fff; /* Light text for contrast */
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  #passwordForm {
+    text-align: center;
+  }
+
+  input[type="password"] {
+    border: none;
+    border-bottom: 2px solid #fff;
+    background-color: transparent;
+    margin-top: 20px;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  #strengthFeedback {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  .weak {
+    color: red;
+  }
+
+  .medium {
+    color: orange;
+  }
+
+  .strong {
+    color: limegreen;
+  }
+</style>
+</head>
+<body>
+  <form id="passwordForm">
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" autofocus>
+    <div id="strengthFeedback"></div>
+  </form>
+  <script>
+    document.getElementById('password').addEventListener('input', function(e) {
+      const password = e.target.value;
+      let strength = 0;
+      let feedback = '';
+
+      if (password.length >= 8) strength += 1;
+      if (/[A-Z]/.test(password)) strength += 1;
+      if (/[a-z]/.test(password)) strength += 1;
+      if (/[0-9]/.test(password)) strength += 1;
+      if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+
+      switch (strength) {
+        case 0:
+        case 1:
+          feedback = 'Very Weak: Make sure your password has a minimum of 8 characters, includes uppercase and lowercase letters, a number, and a special character.';
+          document.getElementById('strengthFeedback').className = 'weak';
+          break;
+        case 2:
+          feedback = 'Weak: Try adding more varied characters such as uppercase, numbers, or special characters.';
+          document.getElementById('strengthFeedback').className = 'weak';
+          break;
+        case 3:
+          feedback = 'Medium: Add more unique characters to enhance strength.';
+          document.getElementById('strengthFeedback').className = 'medium';
+          break;
+        case 4:
+          feedback = 'Strong: Your password is strong. Make sure it meets all the recommended criteria for added security.';
+          document.getElementById('strengthFeedback').className = 'strong';
+          break;
+        case 5:
+          feedback = 'Very Strong: Great job! Your password meets all the strength criteria.';
+          document.getElementById('strengthFeedback').className = 'strong';
+          break;
+      }
+
+      document.getElementById('strengthFeedback').innerText = feedback;
+    });
+  </script>
+</body>
+</html>
